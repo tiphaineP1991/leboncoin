@@ -49,17 +49,19 @@ const Offers = () => {
           <div className="list-products">
             {products.map(product => {
               return (
-                <div className="product">
-                  <img
-                    className="product-image"
-                    src={product.pictures[0]}
-                  ></img>
-                  <div className="product-details">
-                    <h1>{product.title}</h1>
-                    <h2>{product.price}€</h2>
-                    <h3>{product.created}</h3>
-                  </div>
-                </div>
+                <Link className="product" to={"/offer/" + product._id}>
+                  <>
+                    <img
+                      className="product-image"
+                      src={product.pictures[0]}
+                    ></img>
+                    <div className="product-details">
+                      <h1>{product.title}</h1>
+                      <h2>{product.price}€</h2>
+                      <h3>{product.created}</h3>
+                    </div>
+                  </>
+                </Link>
               );
             })}
           </div>
@@ -70,5 +72,3 @@ const Offers = () => {
 };
 
 export default Offers;
-
-//<Link to={"/offer/" + product._id}></Link>
