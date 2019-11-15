@@ -6,6 +6,7 @@ import "./App.css";
 import Offer from "./pages/offer";
 import Offers from "./pages/offers";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             </Route>
           </Switch>
         </div>
+        <Footer></Footer>
       </div>
     </Router>
   );
