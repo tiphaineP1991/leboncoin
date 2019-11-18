@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../images/Logo.png";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
+import { PromiseProvider } from "mongoose";
 
-const Header = () => {
+const Header = props => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -53,7 +55,7 @@ const Header = () => {
           </button>
         </Link>
       </div>
-      <button className="connection-button">
+      <button className="connection-button" onClick={props.event}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
