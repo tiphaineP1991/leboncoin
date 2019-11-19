@@ -11,20 +11,23 @@ import Cookies from "js-cookie";
 import Modal from "./components/Modal";
 
 function App() {
+  const token = Cookies.get("token");
   const [showModal, setShowModal] = useState(false);
-
-  function updateToken(token) {
-    console.log("token", token);
-    Cookies.set("token", token);
-  }
+  const [user, setUser] = useState({ token: token });
 
   return (
     <Router>
       <div className="App">
         <header className="header"></header>
-        {showModal === true && <Modal setShowModal={setShowModal}></Modal>}
+        {showModal === true && (
+          <Modal setShowModal={setShowModal} setUser={setUser}></Modal>
+        )}
         <div className="wrapper">
-          <Header event={() => setShowModal(true)}></Header>
+          <Header
+            event={() => setShowModal(true)}
+            user={user}
+            setUser={setUser}
+          ></Header>
           <Switch>
             <Route path="/offers">
               <Offers />
@@ -33,7 +36,7 @@ function App() {
               <Offer />
             </Route>
             <Route path="/signup">
-              <Signup updateToken={updateToken} />
+              <Signup />
             </Route>
           </Switch>
         </div>

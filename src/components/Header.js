@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../images/Logo.png";
 import { Link } from "react-router-dom";
-import Modal from "../components/Modal";
-import { PromiseProvider } from "mongoose";
+import Cookies from "js-cookie";
 
 const Header = props => {
   const [isActive, setIsActive] = useState(false);
@@ -55,23 +54,49 @@ const Header = props => {
           </button>
         </Link>
       </div>
-      <button className="connection-button" onClick={props.event}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="black"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+      {props.user.token ? (
+        <button
+          className="connection-button"
+          onClick={() => {
+            props.setUser({});
+            Cookies.remove("token");
+          }}
         >
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        <p>Se connecter</p>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <p>Se déconnecter</p>
+        </button>
+      ) : (
+        <button className="connection-button" onClick={props.event}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <p>Se connecter</p>
+        </button>
+      )}
     </div>
   );
 };

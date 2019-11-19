@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Modal = props => {
   const [email, setEmail] = useState("");
@@ -20,24 +21,32 @@ const Modal = props => {
         <form
           onSubmit={async event => {
             event.preventDefault();
-            const response = await axios.post(
-              "https://leboncoin-api.herokuapp.com/api/user/log_in",
-              {
-                email: email,
-                password: password
+            try {
+              const response = await axios.post(
+                "https://leboncoin-api.herokuapp.com/api/user/log_in",
+                {
+                  email: email,
+                  password: password
+                }
+              );
+              console.log("data", response.data);
+              if (response.data.token) {
+                Cookies.set("token", response.data.token);
+                history.push("/offers");
+                setShowModal(false);
+                props.setUser(response.data);
+              } else {
+                alert("An eror occured");
               }
-            );
-            console.log(response.data);
-            if (response.data === response.data) {
-              history.push("/offers");
+            } catch (error) {
+              alert(error.message);
             }
-            setShowModal(false);
           }}
         >
           <div className="logInInput">
             <h2>Adresse email</h2>
             <input
-              type="text"
+              type="email"
               name="email"
               value={email}
               onChange={event => {
