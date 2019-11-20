@@ -9,6 +9,7 @@ const Signup = props => {
   const [password, setPassword] = useState("");
   const [verifiedPassword, setVerifiedPassword] = useState("");
   const [isCheck, setIsCheck] = useState(false);
+  const [isErrorMessageDisplay, setIsErrorMessageDisplay] = useState(false);
 
   const history = useHistory();
 
@@ -166,6 +167,12 @@ const Signup = props => {
             <div className="logInInput">
               <h2>Confirmer le mot de passe*</h2>
               <input
+                onBlur={() => {
+                  setIsErrorMessageDisplay(true);
+                }}
+                onFocus={() => {
+                  setIsErrorMessageDisplay(false);
+                }}
                 required
                 type="password"
                 name="verifiedPassword"
@@ -176,7 +183,7 @@ const Signup = props => {
               ></input>
             </div>
           </div>
-          {password !== verifiedPassword && (
+          {password !== verifiedPassword && isErrorMessageDisplay === true && (
             <div className="errorPassword">
               Les mots de passe doivent être identiques
             </div>

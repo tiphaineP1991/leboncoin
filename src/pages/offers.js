@@ -5,56 +5,79 @@ import moment from "moment";
 import "moment/locale/fr";
 
 const Offers = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(0);
-  const [count, setCount] = useState();
-  const [searchTitle, setSearchTitle] = useState("");
-  const [searchMaxPrice, setSearchMaxPrice] = useState(null);
-  const [searchMinPrice, setSearchMinPrice] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); //Etat pour le chargement des données
+  const [products, setProducts] = useState([]); // Etat pour définir la liste des produits à afficher
+  const [skip, setSkip] = useState(0); // Etat pour définir le skip
+  const [count, setCount] = useState(); // Etat pour définir le nombre total de résultats
+  const [searchTitle, setSearchTitle] = useState(""); // Etat pour définir ce que j'écris dans l'input de recherche title
+  const [searchMaxPrice, setSearchMaxPrice] = useState(null); // Etat pour définir ce que j'écris dans l'input de recherche maxPrice
+  const [searchMinPrice, setSearchMinPrice] = useState(null); // Etat pour définir ce que j'écris dans l'input de recherche minPrice
+  const [sort, setSort] = useState("");
 
-  const tab = [];
+  // Pour la pagination, je créée un tableau vide me permettant de stocker le nombre de pages
+  // En fonction de la limit correspondant au nombre de résultats par page
+  const skipTab = [];
   const limit = 10;
 
+  const sortTab = ["", "price-desc", "price-asc", "date-desc", "date-asc"];
+  const dropdown = [];
+  for (let i = 0; i < sortTab.length; i++) {
+    dropdown.push(<option value={sortTab[i]}>{sortTab[i]}</option>);
+  }
+
+  // Je définis une chaîne de caractère correspondant à l'url qui s'affiche en fonction de ce que j'entre dans mes critères de recherche
   let search = "";
   if (searchTitle) {
-    search = "title=" + searchTitle;
+    search = "&title=" + searchTitle;
   }
   if (searchMaxPrice) {
     if (search.length > 0) {
       search = search + "&priceMax=" + searchMaxPrice;
     } else {
-      search = "priceMax=" + searchMaxPrice;
+      search = "&priceMax=" + searchMaxPrice;
     }
   }
   if (searchMinPrice) {
     if (search.length > 0) {
       search = search + "&priceMin=" + searchMinPrice;
     } else {
-      search = "priceMin=" + searchMinPrice;
+      search = "&priceMin=" + searchMinPrice;
+    }
+  }
+  if (sort) {
+    if (search.length > 0) {
+      search = search + "&sort=" + sort;
+    } else {
+      search = "&sort=" + sort;
     }
   }
 
+  // Je définis ma recherche avec l'url concatené à mon skip, limit ainsi que search
   const fetchData = async () => {
     const response = await axios.get(
       "https://leboncoin-api.herokuapp.com/api/offer/with-count?skip=" +
-        page +
+        skip +
         "&limit=" +
-        limit
+        limit +
+        search
     );
-    setProducts(response.data.offers);
+
+    // Je mets à jour le nombre de résultats de ma recherche pour afficher le bon nombre de pages
+    // Ainsi que la valeur de product correspondant à la liste de resultats de ma recherche
     setCount(response.data.count);
+    setProducts(response.data.offers);
 
     setIsLoading(false);
   };
 
+  // je créé un tableau contenant le nombre de pages de ma recherche
   for (let i = 0; i < count / limit; i++) {
-    tab.push(i + 1);
+    skipTab.push(i + 1);
   }
 
   useEffect(() => {
     fetchData();
-  }, [page]);
+  }, [skip]);
 
   return (
     <div className="page">
@@ -63,11 +86,7 @@ const Offers = () => {
         className="search"
         onSubmit={async event => {
           event.preventDefault();
-          const response = await axios.get(
-            "https://leboncoin-api.herokuapp.com/api/offer/with-count?" + search
-          );
-          setCount(response.data.count);
-          setProducts(response.data.offers);
+          fetchData();
         }}
       >
         <div className="input-searchtitle">
@@ -108,6 +127,12 @@ const Offers = () => {
             onChange={event => setSearchMaxPrice(event.target.value)}
           ></input>
         </div>
+        <select
+          className="sort"
+          onChange={event => setSort(event.target.value)}
+        >
+          {dropdown}
+        </select>
 
         <button>Rechercher</button>
       </form>
@@ -116,6 +141,7 @@ const Offers = () => {
           <p>En cours de chargement</p>
         ) : (
           <div className="list-products">
+            {/* J'importe ma fonction pour convertir le format de la date */}
             {products.map(product => {
               const dateCreated = new Date(product.created);
               const date =
@@ -142,15 +168,15 @@ const Offers = () => {
         )}
       </div>
       <div className="boutons">
-        {tab.map(pages => {
+        {skipTab.map(pageNumber => {
           return (
             <button
               className="bouton"
               onClick={() => {
-                setPage(pages * limit - limit);
+                setSkip(pageNumber * limit - limit);
               }}
             >
-              {pages}
+              {pageNumber}
             </button>
           );
         })}

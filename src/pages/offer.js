@@ -4,7 +4,7 @@ import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
 
-const Offer = props => {
+const Offer = () => {
   const { id } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +22,7 @@ const Offer = props => {
     fetchData();
   }, []);
 
+  //J'importe ma fonction pour convertir le format de la date
   const dateCreated = new Date(product.created);
   const date =
     dateCreated.toLocaleDateString() + " à " + dateCreated.toLocaleTimeString();

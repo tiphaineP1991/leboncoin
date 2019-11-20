@@ -24,6 +24,7 @@ a {
   height: auto;
   width: 1000px;
   position: relative;
+  min-height: calc(100vh - 50px);
 }
 
 .ellipse {
@@ -182,13 +183,20 @@ z .connection-button p {
   position: absolute;
   margin-top: 40px;
   width: 810px;
-  height: 130px;
+  height: 160px;
   background: #ffffff;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+}
+
+.sort {
+  height: 40px;
+  font-family: Roboto;
+  font-size: 14px;
 }
 
 .input-searchtitle {
@@ -447,6 +455,8 @@ z .connection-button p {
   background: #ffffff;
   border: 1px solid #d9e0eb;
   margin: 5px 0px;
+  font-family: Roboto;
+  font-size: 14px;
 }
 
 .logInButton {
