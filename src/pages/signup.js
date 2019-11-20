@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
 
-const Signup = () => {
+const Signup = props => {
   const [pseudo, setPseudo] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +11,18 @@ const Signup = () => {
   const [isCheck, setIsCheck] = useState(false);
 
   const history = useHistory();
+
+  let disable = false;
+  if (
+    isCheck === true &&
+    password === verifiedPassword &&
+    pseudo &&
+    email &&
+    password &&
+    verifiedPassword
+  ) {
+    disable = true;
+  }
 
   console.log(isCheck);
 
@@ -108,6 +120,7 @@ const Signup = () => {
                 }
               );
               Cookies.set("token", response.data.token);
+              props.setUser(response.data);
               history.push("/offers");
               console.log("data", response.data);
             }
@@ -163,6 +176,11 @@ const Signup = () => {
               ></input>
             </div>
           </div>
+          {password !== verifiedPassword && (
+            <div className="errorPassword">
+              Les mots de passe doivent être identiques
+            </div>
+          )}
           <div>
             <input
               type="checkbox"
@@ -179,8 +197,8 @@ const Signup = () => {
 
           <input
             type="submit"
-            className="logInButton"
             value="Créer mon compte"
+            className={disable === true ? "activate" : "disable"}
           ></input>
         </form>
       </div>

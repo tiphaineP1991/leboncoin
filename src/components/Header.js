@@ -9,23 +9,27 @@ const Header = props => {
   return (
     <div className="header-content">
       <div className="content-left">
-        <img className="logo" alt="logo" src={Logo}></img>
-        <button className="publish-button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M3 3h18v18H3zM12 8v8m-4-4h8" />
-          </svg>
-          <p>Déposer une annonce</p>
-        </button>
+        <Link to="/offers/">
+          <img className="logo" alt="logo" src={Logo}></img>
+        </Link>
+        <Link to="/publish/">
+          <button className="publish-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3h18v18H3zM12 8v8m-4-4h8" />
+            </svg>
+            <p>Déposer une annonce</p>
+          </button>
+        </Link>
         <Link to="/offers/">
           <button
             className={

@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Cookies from "js-cookie";
 import Modal from "./components/Modal";
+import Publish from "./pages/publish";
 
 function App() {
   const token = Cookies.get("token");
@@ -36,7 +37,10 @@ function App() {
               <Offer />
             </Route>
             <Route path="/signup">
-              <Signup />
+              <Signup setUser={setUser} />
+            </Route>
+            <Route path="/publish">
+              <Publish user={user.token} setShowModal={setShowModal} />
             </Route>
           </Switch>
         </div>

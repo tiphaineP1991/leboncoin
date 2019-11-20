@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import { Clear } from "@material-ui/icons";
 
 const Modal = props => {
   const [email, setEmail] = useState("");
@@ -16,6 +17,28 @@ const Modal = props => {
 
   return (
     <div className="modal">
+      <div className="close">
+        <span
+          onClick={event => {
+            setShowModal(false);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </span>
+      </div>
       <div className="logIncart">
         <h1>Connexion</h1>
         <form

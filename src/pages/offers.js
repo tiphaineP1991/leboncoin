@@ -66,6 +66,7 @@ const Offers = () => {
           const response = await axios.get(
             "https://leboncoin-api.herokuapp.com/api/offer/with-count?" + search
           );
+          setCount(response.data.count);
           setProducts(response.data.offers);
         }}
       >
