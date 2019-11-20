@@ -84,7 +84,7 @@ const Offers = () => {
       <div className="ellipse"></div>
       <form
         className="search"
-        onSubmit={async event => {
+        onSubmit={event => {
           event.preventDefault();
           fetchData();
         }}
