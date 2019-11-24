@@ -3,7 +3,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Clear } from "@material-ui/icons";
 
 const Modal = props => {
   const [email, setEmail] = useState("");
@@ -45,13 +44,10 @@ const Modal = props => {
           onSubmit={async event => {
             event.preventDefault();
             try {
-              const response = await axios.post(
-                "https://leboncoin-api.herokuapp.com/api/user/log_in",
-                {
-                  email: email,
-                  password: password
-                }
-              );
+              const response = await axios.post("http://localhost:4000/login", {
+                email: email,
+                password: password
+              });
               console.log("data", response.data);
               if (response.data.token) {
                 Cookies.set("token", response.data.token);

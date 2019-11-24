@@ -4,16 +4,14 @@ import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
 
-const Offer = () => {
+const Offer = props => {
   const { id } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState([]);
 
   const fetchData = async () => {
-    const response = await axios.get(
-      "https://leboncoin-api.herokuapp.com/api/offer/" + id
-    );
+    const response = await axios.get(`http://localhost:4000/offer/${id}`);
     setProduct(response.data);
     setIsLoading(false);
   };
@@ -35,7 +33,7 @@ const Offer = () => {
         <div className="offer-page-content">
           <div className="block-product">
             <div className="cart-product">
-              <img src={product.pictures}></img>
+              <img src={product.files[0]}></img>
               <div className="product-details">
                 <h1>{product.title}</h1>
                 <h2>{product.price}€</h2>
@@ -49,7 +47,7 @@ const Offer = () => {
           </div>
           <div className="block-user">
             <div className="info-user">
-              <h4>{product.creator.account.username}</h4>
+              <h4>{product.user.account.username}</h4>
               <h5>17 annonces en ligne</h5>
             </div>
             <div className="block-button">

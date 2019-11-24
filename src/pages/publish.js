@@ -28,11 +28,11 @@ const Publish = props => {
 
             if (props.user) {
               const response = await axios.post(
-                "https://leboncoin-api.herokuapp.com/api/offer/publish",
+                "http://localhost:4000/publish",
                 data,
                 {
                   headers: {
-                    Authorization: props.user
+                    Authorization: "Bearer " + props.user
                   }
                 }
               );
