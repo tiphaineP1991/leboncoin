@@ -11,7 +11,9 @@ const Offer = props => {
   const [product, setProduct] = useState([]);
 
   const fetchData = async () => {
-    const response = await axios.get(`http://localhost:4000/offer/${id}`);
+    const response = await axios.get(
+      `https://leboncoinapp.herokuapp.com/${id}`
+    );
     setProduct(response.data);
     setIsLoading(false);
   };

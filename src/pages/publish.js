@@ -28,7 +28,7 @@ const Publish = props => {
 
             if (props.user) {
               const response = await axios.post(
-                "http://localhost:4000/publish",
+                "https://leboncoinapp.herokuapp.com/publish",
                 data,
                 {
                   headers: {

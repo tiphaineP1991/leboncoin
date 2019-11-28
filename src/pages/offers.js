@@ -55,7 +55,7 @@ const Offers = () => {
   // Je définis ma recherche avec l'url concatené à mon skip, limit ainsi que search
   const fetchData = async () => {
     const response = await axios.get(
-      "http://localhost:4000/offers/with-count?skip=" +
+      "https://leboncoinapp.herokuapp.com/offers/with-count?skip=" +
         skip +
         "&limit=" +
         limit +

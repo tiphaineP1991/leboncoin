@@ -113,7 +113,7 @@ const Signup = props => {
               return alert("Vous devez accepter les CGU");
             } else {
               const response = await axios.post(
-                "http://localhost:4000/signup",
+                "https://leboncoinapp.herokuapp.com/signup",
                 {
                   email: email,
                   username: pseudo,
