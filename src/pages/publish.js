@@ -77,7 +77,7 @@ const Publish = props => {
             className="input-file"
             type="file"
             onChange={event => {
-              setPhoto(event.target.files);
+              setPhoto(event.target.files[0]);
             }}
           ></input>
           <input className="activate" type="submit" value="valider"></input>
