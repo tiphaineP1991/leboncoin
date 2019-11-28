@@ -44,10 +44,13 @@ const Modal = props => {
           onSubmit={async event => {
             event.preventDefault();
             try {
-              const response = await axios.post("http://localhost:4000/login", {
-                email: email,
-                password: password
-              });
+              const response = await axios.post(
+                "https://leboncoinapp.herokuapp.com/login",
+                {
+                  email: email,
+                  password: password
+                }
+              );
               console.log("data", response.data);
               if (response.data.token) {
                 Cookies.set("token", response.data.token);
