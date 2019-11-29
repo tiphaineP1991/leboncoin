@@ -4,15 +4,16 @@ import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
 
-const Offer = props => {
+const Offer = () => {
   const { id } = useParams();
+  console.log(id);
 
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState([]);
 
   const fetchData = async () => {
     const response = await axios.get(
-      `https://leboncoinapp.herokuapp.com/${id}`
+      "https://leboncoinapp.herokuapp.com/offer/" + id
     );
     setProduct(response.data);
     setIsLoading(false);

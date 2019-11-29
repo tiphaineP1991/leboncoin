@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 const Publish = props => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(null);
+  const [price, setPrice] = useState(Number);
   const [photo, setPhoto] = useState();
 
   const history = useHistory();
