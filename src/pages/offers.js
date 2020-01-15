@@ -62,7 +62,7 @@ const Offers = () => {
   // Je définis ma recherche avec l'url concatené à mon skip, limit ainsi que search
   const fetchData = async () => {
     const response = await axios.get(
-      url.url + "/offers/with-count" + search
+      url.url + "/offers/with-count?" + search
       // ?skip=" + skip + "&limit=" + limit
     );
 
