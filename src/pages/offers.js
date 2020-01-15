@@ -3,81 +3,82 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/fr";
+import url from "../url";
 
 const Offers = () => {
   const [isLoading, setIsLoading] = useState(true); //Etat pour le chargement des données
   const [products, setProducts] = useState([]); // Etat pour définir la liste des produits à afficher
-  const [skip, setSkip] = useState(0); // Etat pour définir le skip
+  // const [skip, setSkip] = useState(0); // Etat pour définir le skip
   const [count, setCount] = useState(); // Etat pour définir le nombre total de résultats
-  const [searchTitle, setSearchTitle] = useState(""); // Etat pour définir ce que j'écris dans l'input de recherche title
-  const [searchMaxPrice, setSearchMaxPrice] = useState(null); // Etat pour définir ce que j'écris dans l'input de recherche maxPrice
-  const [searchMinPrice, setSearchMinPrice] = useState(null); // Etat pour définir ce que j'écris dans l'input de recherche minPrice
+  const [title, setTitle] = useState(""); // Etat pour définir ce que j'écris dans l'input de recherche title
+  const [maxPrice, setMaxPrice] = useState(0); // Etat pour définir ce que j'écris dans l'input de recherche maxPrice
+  const [minPrice, setMinPrice] = useState(0); // Etat pour définir ce que j'écris dans l'input de recherche minPrice
   const [sort, setSort] = useState("");
 
   // Pour la pagination, je créée un tableau vide me permettant de stocker le nombre de pages
   // En fonction de la limit correspondant au nombre de résultats par page
-  const skipTab = [];
-  const limit = 10;
+  // const skipTab = [];
+  // const limit = 2;
+  // const skip = count / limit;
 
-  const sortTab = ["", "price-desc", "price-asc", "date-desc", "date-asc"];
-  const dropdown = [];
+  // je créé un tableau contenant le nombre de pages de ma recherche
+  // for (let i = 0; i < count / limit; i++) {
+  //   skipTab.push(i + 1);
+  // }
+
+  const sortTab = ["price-desc", "price-asc"];
+  const dropdown = [<option default>Trier...</option>];
   for (let i = 0; i < sortTab.length; i++) {
     dropdown.push(<option value={sortTab[i]}>{sortTab[i]}</option>);
   }
 
   // Je définis une chaîne de caractère correspondant à l'url qui s'affiche en fonction de ce que j'entre dans mes critères de recherche
   let search = "";
-  if (searchTitle) {
-    search = "&title=" + searchTitle;
+  if (title) {
+    search = "title=" + title;
   }
-  if (searchMaxPrice) {
+  if (maxPrice) {
     if (search.length > 0) {
-      search = search + "&priceMax=" + searchMaxPrice;
+      search = search + "&maxPrice=" + maxPrice;
     } else {
-      search = "&priceMax=" + searchMaxPrice;
+      search = "maxPrice=" + maxPrice;
     }
   }
-  if (searchMinPrice) {
+  if (minPrice) {
     if (search.length > 0) {
-      search = search + "&priceMin=" + searchMinPrice;
+      search = search + "&minPrice=" + minPrice;
     } else {
-      search = "&priceMin=" + searchMinPrice;
+      search = "minPrice=" + minPrice;
     }
   }
   if (sort) {
     if (search.length > 0) {
       search = search + "&sort=" + sort;
     } else {
-      search = "&sort=" + sort;
+      search = "sort=" + sort;
     }
   }
 
   // Je définis ma recherche avec l'url concatené à mon skip, limit ainsi que search
   const fetchData = async () => {
     const response = await axios.get(
-      "https://leboncoinapp.herokuapp.com/offers/with-count?skip=" +
-        skip +
-        "&limit=" +
-        limit +
-        search
+      url.url + "/offers/with-count" + search
+      // ?skip=" + skip + "&limit=" + limit
     );
 
     // Je mets à jour le nombre de résultats de ma recherche pour afficher le bon nombre de pages
     // Ainsi que la valeur de product correspondant à la liste de resultats de ma recherche
     setCount(response.data.count);
     setProducts(response.data.offers);
-
+    console.log("response.data ===>", response.data);
     setIsLoading(false);
   };
 
-  // je créé un tableau contenant le nombre de pages de ma recherche
-  for (let i = 0; i < count / limit; i++) {
-    skipTab.push(i + 1);
-  }
-
   useEffect(() => {
     fetchData();
-  }, [skip]);
+  }, []);
+
+  console.log(products);
 
   return (
     <div className="page">
@@ -107,34 +108,39 @@ const Offers = () => {
           <input
             type="text"
             placeholder="Que recherchez-vous ?"
-            value={searchTitle}
-            onChange={event => setSearchTitle(event.target.value)}
+            value={title}
+            onChange={event => setTitle(event.target.value)}
           ></input>
         </div>
         <div className="input-searchnumber">
           <input
             type="Number"
             placeholder="Prix min"
-            value={searchMinPrice}
-            onChange={event => setSearchMinPrice(event.target.value)}
+            value={minPrice}
+            onChange={event => setMinPrice(event.target.value)}
           ></input>
         </div>
         <div className="input-searchnumber">
           <input
             type="Number"
             placeholder="Prix max"
-            value={searchMaxPrice}
-            onChange={event => setSearchMaxPrice(event.target.value)}
+            value={maxPrice}
+            onChange={event => setMaxPrice(event.target.value)}
           ></input>
         </div>
         <select
           className="sort"
+          placeholder="trier..."
           onChange={event => setSort(event.target.value)}
         >
           {dropdown}
         </select>
-
-        <button>Rechercher</button>
+        <input
+          className="searchButton"
+          type="submit"
+          value="Rechercher"
+          placeholder="rechercher"
+        ></input>
       </form>
       <div className="search-results">
         {isLoading === true ? (
@@ -164,7 +170,7 @@ const Offers = () => {
           </div>
         )}
       </div>
-      <div className="boutons">
+      {/* <div className="boutons">
         {skipTab.map(pageNumber => {
           return (
             <button
@@ -177,7 +183,7 @@ const Offers = () => {
             </button>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };

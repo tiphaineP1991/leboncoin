@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import url from "../url";
 
 const Publish = props => {
   const [title, setTitle] = useState("");
@@ -27,15 +28,11 @@ const Publish = props => {
             data.append("files", photo);
 
             if (props.user) {
-              const response = await axios.post(
-                "https://leboncoinapp.herokuapp.com/publish",
-                data,
-                {
-                  headers: {
-                    Authorization: "Bearer " + props.user
-                  }
+              const response = await axios.post(url.url + "/publish", data, {
+                headers: {
+                  Authorization: "Bearer " + props.user
                 }
-              );
+              });
               console.log(response.data);
             } else {
               setShowModal(true);

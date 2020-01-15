@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
+import url from "../url";
 
 const Signup = props => {
   const [pseudo, setPseudo] = useState("");
@@ -112,14 +113,11 @@ const Signup = props => {
             } else if (isCheck === false) {
               return alert("Vous devez accepter les CGU");
             } else {
-              const response = await axios.post(
-                "https://leboncoinapp.herokuapp.com/signup",
-                {
-                  email: email,
-                  username: pseudo,
-                  password: password
-                }
-              );
+              const response = await axios.post(url.url + "/signup", {
+                email: email,
+                username: pseudo,
+                password: password
+              });
               Cookies.set("token", response.data.token);
               props.setUser(response.data);
               history.push("/offers");

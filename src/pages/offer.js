@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
+import url from "../url";
 
 const Offer = () => {
   const { id } = useParams();
@@ -12,9 +13,7 @@ const Offer = () => {
   const [product, setProduct] = useState([]);
 
   const fetchData = async () => {
-    const response = await axios.get(
-      "https://leboncoinapp.herokuapp.com/offer/" + id
-    );
+    const response = await axios.get(url.url + "/offer/" + id);
     setProduct(response.data);
     setIsLoading(false);
   };
