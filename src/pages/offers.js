@@ -8,7 +8,7 @@ import url from "../url";
 const Offers = () => {
   const [isLoading, setIsLoading] = useState(true); //Etat pour le chargement des données
   const [products, setProducts] = useState([]); // Etat pour définir la liste des produits à afficher
-  // const [skip, setSkip] = useState(0); // Etat pour définir le skip
+  const [skip, setSkip] = useState(1); // Etat pour définir le skip
   const [count, setCount] = useState(); // Etat pour définir le nombre total de résultats
   const [title, setTitle] = useState(""); // Etat pour définir ce que j'écris dans l'input de recherche title
   const [maxPrice, setMaxPrice] = useState(0); // Etat pour définir ce que j'écris dans l'input de recherche maxPrice
@@ -17,14 +17,15 @@ const Offers = () => {
 
   // Pour la pagination, je créée un tableau vide me permettant de stocker le nombre de pages
   // En fonction de la limit correspondant au nombre de résultats par page
-  // const skipTab = [];
-  // const limit = 2;
-  // const skip = count / limit;
+  const skipTab = [];
+  const limit = 10;
 
   // je créé un tableau contenant le nombre de pages de ma recherche
-  // for (let i = 0; i < count / limit; i++) {
-  //   skipTab.push(i + 1);
-  // }
+  for (let i = 0; i < count / limit; i++) {
+    skipTab.push(i + 1);
+  }
+  console.log("skiptab ====>", skipTab);
+  console.log("count ====", count);
 
   const sortTab = ["price-desc", "price-asc"];
   const dropdown = [<option default>Trier...</option>];
@@ -35,37 +36,39 @@ const Offers = () => {
   // Je définis une chaîne de caractère correspondant à l'url qui s'affiche en fonction de ce que j'entre dans mes critères de recherche
   let search = "";
   if (title) {
-    search = "title=" + title;
+    if (search.length > 0) {
+      search = search + "&title=" + title;
+    } else {
+      search = "&title=" + title;
+    }
   }
   if (maxPrice) {
     if (search.length > 0) {
       search = search + "&maxPrice=" + maxPrice;
     } else {
-      search = "maxPrice=" + maxPrice;
+      search = "&maxPrice=" + maxPrice;
     }
   }
   if (minPrice) {
     if (search.length > 0) {
       search = search + "&minPrice=" + minPrice;
     } else {
-      search = "minPrice=" + minPrice;
+      search = "&minPrice=" + minPrice;
     }
   }
   if (sort) {
     if (search.length > 0) {
       search = search + "&sort=" + sort;
     } else {
-      search = "sort=" + sort;
+      search = "&sort=" + sort;
     }
   }
 
   // Je définis ma recherche avec l'url concatené à mon skip, limit ainsi que search
   const fetchData = async () => {
     const response = await axios.get(
-      url.url + "/offers/with-count?" + search
-      // ?skip=" + skip + "&limit=" + limit
+      url.url + "/offers/with-count?skip=" + skip + search
     );
-
     // Je mets à jour le nombre de résultats de ma recherche pour afficher le bon nombre de pages
     // Ainsi que la valeur de product correspondant à la liste de resultats de ma recherche
     setCount(response.data.count);
@@ -76,7 +79,7 @@ const Offers = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [skip]);
 
   console.log(products);
 
@@ -170,20 +173,24 @@ const Offers = () => {
           </div>
         )}
       </div>
-      {/* <div className="boutons">
+      <div className="boutons">
         {skipTab.map(pageNumber => {
           return (
             <button
               className="bouton"
               onClick={() => {
-                setSkip(pageNumber * limit - limit);
+                if (pageNumber === 1) {
+                  setSkip(1);
+                } else {
+                  setSkip(pageNumber * limit - limit);
+                }
               }}
             >
               {pageNumber}
             </button>
           );
         })}
-      </div> */}
+      </div>
     </div>
   );
 };
