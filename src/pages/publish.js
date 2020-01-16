@@ -9,7 +9,7 @@ const Publish = props => {
   const [price, setPrice] = useState(Number);
   const [photo, setPhoto] = useState();
 
-  const history = useHistory();
+  let history = useHistory();
 
   const setShowModal = props.setShowModal;
 
@@ -26,7 +26,6 @@ const Publish = props => {
             data.append("description", description);
             data.append("price", price);
             data.append("files", photo);
-
             if (props.user) {
               const response = await axios.post(url.url + "/publish", data, {
                 headers: {
@@ -37,6 +36,8 @@ const Publish = props => {
             } else {
               setShowModal(true);
             }
+            alert("Offre publiée");
+            history.push("/");
           }}
         >
           <h2>Titre de l'annonce*</h2>

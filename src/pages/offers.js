@@ -18,7 +18,9 @@ const Offers = () => {
   // Pour la pagination, je créée un tableau vide me permettant de stocker le nombre de pages
   // En fonction de la limit correspondant au nombre de résultats par page
   const skipTab = [];
-  const limit = 10;
+  const limit = 4;
+
+  console.log("skip =====>", skip);
 
   // je créé un tableau contenant le nombre de pages de ma recherche
   for (let i = 0; i < count / limit; i++) {
@@ -179,11 +181,7 @@ const Offers = () => {
             <button
               className="bouton"
               onClick={() => {
-                if (pageNumber === 1) {
-                  setSkip(1);
-                } else {
-                  setSkip(pageNumber * limit - limit);
-                }
+                setSkip(pageNumber);
               }}
             >
               {pageNumber}

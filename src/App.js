@@ -30,9 +30,6 @@ function App() {
             setUser={setUser}
           ></Header>
           <Switch>
-            <Route path="/offers">
-              <Offers />
-            </Route>
             <Route path="/offer/:id">
               <Offer />
             </Route>
@@ -41,6 +38,9 @@ function App() {
             </Route>
             <Route path="/publish">
               <Publish user={user.token} setShowModal={setShowModal} />
+            </Route>
+            <Route path="/">
+              <Offers />
             </Route>
           </Switch>
         </div>
